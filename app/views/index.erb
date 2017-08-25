@@ -1,2 +1,9 @@
-<h1>BrandIn</h1>
-<a href="/login">Login</a>
+<h2>News from <%= @source%></h2>
+<% @articles.each do |article| %>
+  <h3><%= article["title"] %></h3>
+  <img src="<%= article["urlToImage"] %>" alt="W3Schools.com">
+  <p><%= article["description"] %></p><a href="<%= article["url"] %>">Read more</a>
+  <p><%= article["author"] %></p>
+  <p><%= article["publishedAt"] %></p>
+  <br>
+<% end %>

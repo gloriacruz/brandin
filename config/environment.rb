@@ -10,6 +10,7 @@ require 'rubygems'
 
 require 'uri'
 require 'pathname'
+require 'net/http'
 
 require 'dotenv'
 Dotenv.load
