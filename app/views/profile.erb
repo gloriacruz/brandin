@@ -1,4 +1,9 @@
-<h1>User Profile</h1>
-<p>Welcome <%= @my_name %></p>
-<p><%= @my_job_titles %></p>
-<p><%= @my_location %></p>
+<h2>User Profile</h2>
+<p>Welcome <%= @user.full_name %></p>
+<p><%= @user.title %></p>
+
+<select multiple="multiple" id="source-select" name="my-select[]">
+  <% @sources.each do |source| %>
+  <option value='<%= source.code_name %>'><%= source.name %></option>
+  <% end %>
+</select>
