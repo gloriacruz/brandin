@@ -53,5 +53,6 @@ end
 
 get '/logout' do
   logout
+  redirect '/'
 end
 

@@ -80,3 +80,17 @@ input[type=button], input[type=submit], input[type=reset] {
     margin: 4px 2px;
     cursor: pointer;
 }
+
+a.linkedin {
+    background: #0074A1;
+}
+.icon-linkedin:before {
+    content: "\e000";
+}
+
+.liicon {
+  background: url(../linkedin.png) no-repeat 6px center;
+  width: 100px;
+  height: 100px;
+  display: block;
+}
