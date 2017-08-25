@@ -20,15 +20,19 @@
 </head>
 <body>
 <div id="content">
-  <nav><a href="/">Home</a> |
-  <% if @current_user %>
-    <a href="/profile/<%= @current_user.id %>"><%= @current_user.full_name %></a>
+  <nav><h1>BrandIn</h1><a href="/">Home</a> |
+  <% if current_user %>
+    <a href="/profiles/<%= current_user.id %>"><%= current_user.full_name %></a> |
+    <a href="/logout">Logout</a>
   <% else %>
     <a href="/login">Login</a>
   <% end %>
   </nav>
-  <h1>BrandIn</h1>
+  <hr>
   <%= yield %>
 </div>
 </body>
+<footer>For any questions, please contact us at:
+support@brandin.com
+</footer>
 </html>

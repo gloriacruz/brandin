@@ -1,9 +1,41 @@
 <h2>User Profile</h2>
 <p>Welcome <%= @user.full_name %></p>
 <p><%= @user.title %></p>
-
-<select multiple="multiple" id="source-select" name="my-select[]">
-  <% @sources.each do |source| %>
-  <option value='<%= source.code_name %>'><%= source.name %></option>
-  <% end %>
-</select>
+<br>
+<hr>
+<h4>News Sources</h4>
+<form method="post" action="/profiles/<%= @user.id %>" id="settings_form">
+  <select multiple="multiple" id="source-select" name="my-select[]">
+    <% @sources.each do |source| %>
+    <option value='<%= source.code_name %>'><%= source.name %></option>
+    <% end %>
+  </select>
+  <br>
+  <input type="submit" name="save" value="Save">
+</form>
+<br>
+<hr>
+<h4>News Bot Setup</h4>
+<form method="post" action="" id="bot_form">
+  <p>Set up your own bot to share news with your connections</p>
+  <label>Share Frequency</label>
+  <select>
+    <option value="daily">Daily</option>
+    <option value="bi-weekly">Bi-weekly</option>
+    <option value="weekly">Weekly</option>
+    <option value="monthly">Monthly</option>
+  </select>
+  <p>We will send an email summary of your shared articles</p>
+  <label>E-mail Frequency</label>
+  <select>
+    <option value="none">None</option>
+    <option value="daily">Daily</option>
+    <option value="bi-weekly">Bi-weekly</option>
+    <option value="weekly">Weekly</option>
+    <option value="monthly">Monthly</option>
+  </select>
+  <br><br>
+  <input type="submit" name="save" value="Save">
+</form>
+<br>
+<hr>
