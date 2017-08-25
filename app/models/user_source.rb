@@ -1,4 +1,4 @@
-class NewsSource < ActiveRecord::Base
+class UserSource < ActiveRecord::Base
   belongs_to :user
   belongs_to :source
 end

@@ -8,6 +8,6 @@ helpers do
   end
 
   def current_user
-    @current_user ||= User.find( session[:id] ) if session[:id]
+    current_user ||= User.find( session[:id] ) if session[:id]
   end
 end

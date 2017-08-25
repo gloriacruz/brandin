@@ -1,15 +1,48 @@
 require 'uri'
 
 get '/' do
-  url = URI("https://newsapi.org/v1/articles?source=the-next-web&sortBy=latest&apiKey=#{ENV["NEWS_API"]}")
-  # http = Net::HTTP.new(url.host, url.port)
-  # request = Net::HTTP::Get.new(url)
-  # response = http.request(request)
-  response = Net::HTTP.get(url)
-  body = JSON.parse(response)
-  p body
-  @source = body["source"]
-  @articles = body["articles"]
+  @source = ""
+  @articles = []
+  sort_by = ""
+  # TODO: Check status of response!!
+  if current_user && current_user.user_sources.length > 0
+    current_user.user_sources.each do |user_source|
+      sort_by = "&sortBy=latest" if user_source.source.code_name != "recode"
+      url = URI("https://newsapi.org/v1/articles?source=#{user_source.source.code_name}#{sort_by}&apiKey=#{ENV["NEWS_API"]}")
+      p url
+      http = Net::HTTP.new(url.host, url.port)
+      http.use_ssl = true
+      http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+      request = Net::HTTP::Get.new(url)
+      response = http.request(request)
+      body = JSON.parse(response.body)
+      @source << "| " + body["source"] + " | "
+      @articles.push(*body["articles"])
+    end
+  else
+    #Default news from TechCrunch
+    url = URI("https://newsapi.org/v1/articles?source=techcrunch&sortBy=latest&apiKey=#{ENV["NEWS_API"]}")
+
+    http = Net::HTTP.new(url.host, url.port)
+    http.use_ssl = true
+    http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+    request = Net::HTTP::Get.new(url)
+    response = http.request(request)
+    # response = Net::HTTP.get(url)
+
+    # DON'T DO THIS IN PRACTICE!!
+    # Should be something more like...
+    #
+    # http.use_ssl = true
+    # pem = File.read("/path/to/my.pem")
+    # http.cert = OpenSSL::X509::Certificate.new(pem)
+    # http.key  = OpenSSL::PKey::RSA.new(pem)
+    # http.verify_mode = OpenSSL::SSL::VERIFY_PEER
+
+    body = JSON.parse(response.body)
+    @source = body["source"]
+    @articles = body["articles"]
+  end
   erb :'index'
 end
 
@@ -18,26 +51,8 @@ get '/login' do
   redirect url
 end
 
-get '/profile' do
-  code = params[:code]
-  p "Im logged in with code #{code}"
-  access_token = get_oauth.get_access_token(code)
-  p "Access token #{access_token}"
-  api = LinkedIn::API.new(access_token)
-  @me = api.profile
-  p @me
-  @my_name = "#{@me.first_name} #{@me.last_name}"
-  @my_job_titles = @me.headline
-  # Get industry
-  # TODO: User changing their name or position, what happens?
-  @user = User.find_or_create_by(full_name: @my_name, title: @my_job_titles, linkedin_token: access_token)
-  login(@user)
-
-  redirect "profile/#{@user.id}"
+get '/logout' do
+  logout
+  redirect '/'
 end
 
-get '/profile/:id' do
-  @user = User.find_by(id: params[:id])
-  @sources = Source.all
-  erb :'profile'
-end

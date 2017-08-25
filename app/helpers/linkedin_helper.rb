@@ -1,9 +1,6 @@
 helpers do
 
   def configureLinkedin
-    # It's best practice to keep secret credentials out of source code.
-    # You can, of course, hardcode dev keys or directly pass them in as the
-    # first two arguments of LinkedIn::OAuth2.new
     LinkedIn.configure do |config|
       config.client_id     = ENV["LINKEDIN_CLIENT_ID"]
       config.client_secret = ENV["LINKEDIN_CLIENT_SECRET"]
