@@ -15,6 +15,9 @@ gem 'rake'
 
 gem 'shotgun'
 
+gem 'dotenv'
+gem "linkedin-oauth2", "~> 1.0"
+
 group :test do
   gem 'database_cleaner', '~> 1.4.1'
   gem 'shoulda-matchers'

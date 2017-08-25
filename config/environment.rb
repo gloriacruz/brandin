@@ -11,6 +11,10 @@ require 'rubygems'
 require 'uri'
 require 'pathname'
 
+require 'dotenv'
+Dotenv.load
+require 'linkedin-oauth2'
+
 require 'pg'
 require 'active_record'
 require 'logger'
